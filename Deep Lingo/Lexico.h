@@ -9,9 +9,10 @@ public:
 };
 struct CodigoToken {
 public:
-	int token; int linea; int columna; int index; int longitud;
+	int token; int linea; int columna; int index; int longitud; int indexIdentificador = -1;
 	CodigoToken() {}
 	CodigoToken(int tok, int lin, int col, int idx, int lon) { token = tok; linea = lin; columna = col; index = idx; longitud = lon; }
+	void SetID(int id) { indexIdentificador = id; }
 };
 enum Accion { Reset, Avanza, Comienza };
 
@@ -63,6 +64,7 @@ void AutomataLexico() {
 				codigoTokenizado.push_back(*(new CodigoToken(token, localLinea, localColumna, localIndex, localLongitud)));
 				if (token == IDENTIFIER) { //Si es identificador lo agrego a la tabla
 					tablaIdentificadores.push_back(*(new Identificadores(texto, "", codigoTokenizado.size() - 1)));
+					codigoTokenizado[codigoTokenizado.size() - 1].SetID(tablaIdentificadores.size() - 1);
 				}
 				accion = Accion::Comienza;
 			} else {									//De seguro hubo un error, token no valido

@@ -34,11 +34,11 @@ void main() {
 
 	cout << endl << "Codigo Tokenizado: " << endl;
 	for (int i = 0; i < codigoTokenizado.size(); i++) {
-		cout << "  [" << i << "] " << codigoTokenizado[i].token << "=" << Tokens[codigoTokenizado[i].token] << " (" << codigoTokenizado[i].linea << ", " << codigoTokenizado[i].columna << "): " << programa.substr(codigoTokenizado[i].index, codigoTokenizado[i].longitud) << endl;
+		cout << "  [" << i << "] [" << codigoTokenizado[i].indexIdentificador << "] : " << Tokens[codigoTokenizado[i].token] << "[" << codigoTokenizado[i].token << "] (" << codigoTokenizado[i].linea << ", " << codigoTokenizado[i].columna << "): " << programa.substr(codigoTokenizado[i].index, codigoTokenizado[i].longitud) << endl;
 	}
 	cout << endl << "Tabla de Identificadores" << endl;
 	for (int i = 0; i < tablaIdentificadores.size(); i++) {
-		cout << "  [" << i << "] " << tablaIdentificadores[i].identificador << "(" << tablaIdentificadores[i].indexCodigo << "): " << tablaIdentificadores[i].tipo << endl;
+		cout << "  [" << i << "] [" << tablaIdentificadores[i].indexCodigo << "] " << tablaIdentificadores[i].identificador << " : " << tablaIdentificadores[i].tipo << endl;
 	}
 	cout << endl;
 
