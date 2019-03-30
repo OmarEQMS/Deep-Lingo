@@ -1,0 +1,27 @@
+/* File: arrays.deep 
+* Implementation of typical array operations. 
+* (C) 2018 Ariel Ortiz, ITESM CEM 
+*/
+
+// Prints all the elements in the array list referred by handle a.
+
+print_array(a) {
+    var first, i, n;
+    first = 42;
+    printc('[');
+    i = 0;
+    n = size(a);
+    loop {
+        if (i == n) {
+            break;
+        }
+        if (first) {
+            first = 0;
+        } else {
+            prints(", ");
+        }
+        printi(get(a, i));
+        i++;
+    }
+    printc(']');
+}
