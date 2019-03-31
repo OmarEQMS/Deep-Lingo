@@ -1,23 +1,6 @@
 #pragma once
 
-vector<string> Tokens;
-vector<string> palabras_reservadas;
-
-vector<vector<int>> matrizLexico;
-vector<int> estadoToken;
-string programa;
-
-void ReadFilePalabrasReservadas() {
-	ifstream archivo("palabras_reservadas.txt");
-	string fila;
-	if (archivo.is_open()) {
-		while (getline(archivo, fila)) {
-			palabras_reservadas.push_back(fila);
-		}
-		archivo.close();
-	}
-}
-
+//Programa
 void ReadFilePrograma() {
 	programa = "";
 	ifstream archivo("programa.txt");
@@ -31,19 +14,20 @@ void ReadFilePrograma() {
 	}
 }
 
+//Lexico
 void ReadFileLexico() {
 	int i = 0, j = 0;
-	ifstream archivo("matrizLexico.txt");
-	string fila, celda, dato;
+	ifstream archivo("Lexico.txt");
+	string fila, celda;
 	if (archivo.is_open()) {
 		i = 0;
 		while (getline(archivo, fila)) {
 			istringstream SSfila(fila);
-			matrizLexico.resize(i + 1);
+			Lexico.resize(i + 1);
 			j = 0;
 			while (getline(SSfila, celda, '\t')) {
-				matrizLexico[i].resize(j + 1);
-				matrizLexico[i][j] = stoi(celda);
+				Lexico[i].resize(j + 1);
+				Lexico[i][j] = stoi(celda);
 				j++;
 			}
 			i++;
@@ -54,7 +38,7 @@ void ReadFileLexico() {
 
 void ReadFileTokens() {
 	int i = 0, j = 0;
-	ifstream archivo("tokens.txt");
+	ifstream archivo("LexicoTokens.txt");
 	string fila, celda;
 	if (archivo.is_open()) {
 		i = 0;
@@ -72,4 +56,82 @@ void ReadFileTokens() {
 		}
 		archivo.close();
 	}
+}
+
+void ReadFilePalabrasReservadas() {
+	ifstream archivo("palabras_reservadas.txt");
+	string fila;
+	if (archivo.is_open()) {
+		while (getline(archivo, fila)) {
+			palabras_reservadas.push_back(fila);
+		}
+		archivo.close();
+	}
+}
+
+
+//Sintactivo
+void ReadFileSintactico() {
+	int i = 0, j = 0;
+	ifstream archivo("Sintactico.txt");
+	string fila, celda;
+	if (archivo.is_open()) {
+		i = 0;
+		while (getline(archivo, fila)) {
+			istringstream SSfila(fila);
+			//TODO
+			j = 0;
+			while (getline(SSfila, celda, '\t')) {
+				//TODO
+				j++;
+			}
+			i++;
+		}
+		archivo.close();
+	}
+}
+
+void ReadFileSintacticoReglas() {
+	int i = 0, j = 0;
+	ifstream archivo("SintacticoReglas.txt");
+	string fila, celda;
+	if (archivo.is_open()) {
+		i = 0;
+		while (getline(archivo, fila)) {
+			istringstream SSfila(fila);
+			//TODO
+			j = 0;
+			while (getline(SSfila, celda, ' ')) {
+				//TODO
+				j++;
+			}
+			i++;
+		}
+		archivo.close();
+	}
+}
+
+void ReadFileReglas() {
+	ifstream archivo("reglas.txt");
+	string fila;
+	if (archivo.is_open()) {
+		while (getline(archivo, fila)) {
+			//TODO
+		}
+		archivo.close();
+	}
+}
+
+//Todos
+void ReadFiles() {
+	//General
+	ReadFilePrograma();
+	//Lexico
+	ReadFileLexico();
+	ReadFileTokens();
+	ReadFilePalabrasReservadas();
+	//Sintactico
+	ReadFileSintactico();
+	ReadFileSintacticoReglas();
+	ReadFileReglas();
 }

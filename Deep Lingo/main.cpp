@@ -4,9 +4,12 @@
 #include <sstream>
 #include <string>
 using namespace std;
-#include "Tokens.h"
-#include "ReadFiles.h"
-#include "Lexico.h"
+#include "Tokens.h" //Meramente IDs
+#include "Reglas.h" //Meramente IDs
+#include "Structs.h" //Structuras y variables globales
+#include "ReadFiles.h" //Lectura de txts
+#include "Lexico.h"	//AutomataLexico
+#include "Sintactico.h"	//Automata Sintactico
 
 /*
 //4 archivos que definen el lexico
@@ -21,24 +24,22 @@ vector<Identificadores> tablaIdentificadores;
 */
 
 void main() {
-	ReadFilePrograma();
-	ReadFileLexico();
-	ReadFileTokens();
-	ReadFilePalabrasReservadas();
-
+	ReadFiles();
 	AutomataLexico();
+
+
 	cout << "Tokens: " << endl;
 	for (int i = 0; i < Tokens.size(); i++) {
 		cout << "  [" << i << "] " << Tokens[i] << endl;
 	}
 
 	cout << endl << "Codigo Tokenizado: " << endl;
-	for (int i = 0; i < codigoTokenizado.size(); i++) {
-		cout << "  [" << i << "] [" << codigoTokenizado[i].indexIdentificador << "] : " << Tokens[codigoTokenizado[i].token] << "[" << codigoTokenizado[i].token << "] (" << codigoTokenizado[i].linea << ", " << codigoTokenizado[i].columna << "): " << programa.substr(codigoTokenizado[i].index, codigoTokenizado[i].longitud) << endl;
+	for (int i = 0; i < CodigoTokenizado.size(); i++) {
+		cout << "  [" << i << "] [" << CodigoTokenizado[i].indexIdentificador << "] : " << Tokens[CodigoTokenizado[i].token] << "[" << CodigoTokenizado[i].token << "] (" << CodigoTokenizado[i].linea << ", " << CodigoTokenizado[i].columna << "): " << CodigoTokenizado[i].ValorLexico() << endl;
 	}
 	cout << endl << "Tabla de Identificadores" << endl;
-	for (int i = 0; i < tablaIdentificadores.size(); i++) {
-		cout << "  [" << i << "] [" << tablaIdentificadores[i].indexCodigo << "] " << tablaIdentificadores[i].identificador << " : " << tablaIdentificadores[i].tipo << endl;
+	for (int i = 0; i < TablaIdentificadores.size(); i++) {
+		cout << "  [" << i << "] [" << TablaIdentificadores[i].indexCodigo << "] " << CodigoTokenizado[TablaIdentificadores[i].indexCodigo].ValorLexico() << " : " << TablaIdentificadores[i].tipo << endl;
 	}
 	cout << endl;
 
