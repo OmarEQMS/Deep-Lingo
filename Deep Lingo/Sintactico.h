@@ -1,13 +1,19 @@
 #pragma once
+/*
+cout << "Token(" << Tokens[Programa->children[0]->data->token->token] << ") ";
+cout << "Reglas(" << Reglas[Programa->children[0]->data->regla->regla] << ") ";
+cout << "E[" << estados.back() << "] ";
+cout << "ACC" << endl;
+cout << "D(" << accion.numero << ")" << endl;
+cout << "R(" << accion.numero << ")" << endl;
+*/
 
 AccionSintactico SigAccion(int estado) {
 	int indice = 0;
 	if (Programa->children[0]->data->tipo == Programa->children[0]->data->Token) {
 		indice = Programa->children[0]->data->token->token;
-		cout << "Token(" << Tokens[Programa->children[0]->data->token->token] << ") ";
 	}else if(Programa->children[0]->data->tipo == Programa->children[0]->data->Regla) {
 		indice = Tokens.size() + Programa->children[0]->data->regla->regla;
-		cout << "Reglas(" << Reglas[Programa->children[0]->data->regla->regla] << ") ";
 	}
 	return Sintactico[estado][indice];
 }
@@ -20,19 +26,15 @@ void AutomataSintactico() {
 	bool fin = false;
 
 	while (!fin) {
-		cout << "E[" << estados.back() << "] ";
 		AccionSintactico accion = SigAccion(estados.back());
 		if (accion.accion == AccionSintactico::Acceptable) {
-			cout << "ACC" << endl;
 			Programa = pila;
 			fin = true;
 		} else if (accion.accion == AccionSintactico::Desplazate) {
-			cout << "D(" << accion.numero << ")" << endl;
 			estados.push_back(accion.numero);
 			pila->AddChild(Programa->children[0], pila->children.size());
 			Programa->RemoveChild(0);
 		} else if (accion.accion == AccionSintactico::Reduce) {
-			cout << "R(" << accion.numero << ")" << endl;
 			ReduccionRegla reduccion = SintacticoReglas[accion.numero];
 			int cantReglas = reduccion.definicion.size();
 			int cantPila = pila->children.size();

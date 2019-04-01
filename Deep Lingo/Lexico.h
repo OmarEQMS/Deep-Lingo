@@ -1,5 +1,19 @@
 #pragma once
 
+void UnicodeCharacter() { //Ejecutar antes del lexico
+	for (int i = 0; i < programa.length() - 8; i++) {
+		if (programa.substr(i, 2) == "\\u") {
+			unsigned int character; stringstream ss;
+			ss << hex << programa.substr(i+2, 6); ss >> character;
+			// output it as a signed type
+			if (character < 32 || character > 126) {
+				character = '?';
+			}
+			programa = programa.substr(0, i) + (char)character + programa.substr(i + 8, programa.length() - i - 8);
+		}
+	}
+}
+
 //Metodos
 //Salir -1 , Error -2, Sigue >0, Omite =0 
 int SiguienteEstado(int estadoActual, char caracter) {
