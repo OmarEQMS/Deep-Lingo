@@ -79,10 +79,23 @@ void ReadFileSintactico() {
 		i = 0;
 		while (getline(archivo, fila)) {
 			istringstream SSfila(fila);
-			//TODO
+			Sintactico.resize(i + 1);
 			j = 0;
 			while (getline(SSfila, celda, '\t')) {
-				//TODO
+				Sintactico[i].resize(j + 1);
+				if (celda == "") {
+					Sintactico[i][j].accion = Sintactico[i][j].Error;
+					Sintactico[i][j].numero = -1;
+				} else if (celda.substr(0, 1) == "a") {
+					Sintactico[i][j].accion = Sintactico[i][j].Acceptable;
+					Sintactico[i][j].numero = 0;
+				} else if (celda.substr(0, 1) == "r") {
+					Sintactico[i][j].accion = Sintactico[i][j].Reduce;
+					Sintactico[i][j].numero = stoi(celda.substr(1, celda.length()));
+				} else if (celda.substr(0, 1) == "s") {
+					Sintactico[i][j].accion = Sintactico[i][j].Desplazate;
+					Sintactico[i][j].numero = stoi(celda.substr(1, celda.length()));
+				}
 				j++;
 			}
 			i++;
@@ -92,17 +105,34 @@ void ReadFileSintactico() {
 }
 
 void ReadFileSintacticoReglas() {
-	int i = 0, j = 0;
+	int i = 0, j = 0, k = 0;
 	ifstream archivo("SintacticoReglas.txt");
-	string fila, celda;
+	string fila, celda, dato;
 	if (archivo.is_open()) {
 		i = 0;
 		while (getline(archivo, fila)) {
 			istringstream SSfila(fila);
-			//TODO
+			SintacticoReglas.resize(i + 1);
 			j = 0;
-			while (getline(SSfila, celda, ' ')) {
-				//TODO
+			while (getline(SSfila, celda, '\t')) {
+				if (j == 0) {
+					SintacticoReglas[i].regla = stoi(celda);
+				}else if (j == 1) {
+					k = 0;
+					istringstream SScelda(celda);										
+					while (getline(SScelda, dato, ' ')) {
+						if (dato.substr(0, 1) == "r") {
+							SintacticoReglas[i].definicion.resize(k + 1);
+							SintacticoReglas[i].definicion[k].tipo = SintacticoReglas[i].definicion[k].Regla;
+							SintacticoReglas[i].definicion[k].index = stoi(dato.substr(1, dato.length()));
+						}else if (dato.substr(0, 1) == "t") {
+							SintacticoReglas[i].definicion.resize(k + 1);
+							SintacticoReglas[i].definicion[k].tipo = SintacticoReglas[i].definicion[k].Token;
+							SintacticoReglas[i].definicion[k].index = stoi(dato.substr(1, dato.length()));
+						}
+						k++;
+					}
+				}
 				j++;
 			}
 			i++;
@@ -116,7 +146,7 @@ void ReadFileReglas() {
 	string fila;
 	if (archivo.is_open()) {
 		while (getline(archivo, fila)) {
-			//TODO
+			Reglas.push_back(fila);
 		}
 		archivo.close();
 	}

@@ -39,12 +39,13 @@ void AutomataLexico() {
 			cout << "ERROR Caracter no valido en " << linea << ", " << columna << endl;
 			accion = AccionLexico::Reset;
 		} else if (sigEstado == -1) {				//Si el estado es -1
-			int token = ValidarEstadoToken(texto, estado);
-			if (token != -1) {						//encontre un token, lo guardo
-				CodigoTokenizado.push_back(*(new CodigoToken(token, localLinea, localColumna, localIndex, localLongitud)));
-				if (token == IDENTIFIER) { //Si es identificador lo agrego a la tabla
-					TablaIdentificadores.push_back(*(new Identificador(CodigoTokenizado.size() - 1)));
-					CodigoTokenizado[CodigoTokenizado.size() - 1].SetID(TablaIdentificadores.size() - 1);
+			int tokenID = ValidarEstadoToken(texto, estado);
+			if (tokenID != -1) {						//encontre un token, lo guardo
+				CodigoToken* token = new CodigoToken(tokenID, localLinea, localColumna, localIndex, localLongitud);
+				Programa->AddChild(new NodoPrograma(token), Programa->children.size());
+				if (tokenID == IDENTIFIER) { //Si es identificador lo agrego a la tabla
+					TablaIdentificadores.push_back(*(new Identificador(token)));
+					token->SetID(TablaIdentificadores.size() - 1);
 				}
 				accion = AccionLexico::Comienza;
 			} else {									//De seguro hubo un error, token no valido
@@ -92,6 +93,17 @@ void AutomataLexico() {
 
 	}
 
-	CodigoTokenizado.push_back(*(new CodigoToken(FIN, linea, columna, localIndex, 0)));
+	CodigoToken* token = new CodigoToken(FIN, linea, columna, localIndex, 0);
+	Programa->AddChild(new NodoPrograma(token), Programa->children.size());
 
+}
+
+
+void EliminarComentarios() { //Se tiene que hacer despues del lexico
+	for (int i = 0; i < Programa->children.size(); i++) {
+		if (Programa->children[i]->data->token->token == SHORT_COMMENT || Programa->children[i]->data->token->token == LARGE_COMMENT) {
+			Programa->RemoveChild(i);
+			i--;
+		}
+	}
 }
